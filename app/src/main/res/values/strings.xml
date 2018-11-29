@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">WeatherCast</string>
+    <string name="app_name">Umbrella!</string>
+    <string name="umbrella">Umbrella!</string>
+    <string name="umbrella_picture">Umbrella picture</string>
 </resources>
