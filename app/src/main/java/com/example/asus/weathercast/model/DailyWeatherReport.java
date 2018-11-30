@@ -5,6 +5,13 @@ package com.example.asus.weathercast.model;
  */
 
 public class DailyWeatherReport {
+
+    public static final  String  WEATHER_TYPE_CLOUDS="Clouds";
+    public static final  String  WEATHER_TYPE_CLEAR="Clear";
+    public static final  String  WEATHER_TYPE_RAIN="Rain";
+    public static final  String  WEATHER_TYPE_WIND="Wind";
+    public static final  String  WEATHER_TYPE_SNOW="Snow";
+
     private String cityName;
     private String country;
     private int currentTemp;

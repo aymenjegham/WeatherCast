@@ -8,45 +8,16 @@
     tools:context="com.example.asus.weathercast.WeatherActivity">
 
     <TextView
-        android:id="@+id/weathertype"
-        android:layout_width="176dp"
-        android:layout_height="93dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:text="Rain"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/location"
-        app:layout_constraintTop_toBottomOf="@+id/mintemp" />
-
-    <TextView
-        android:id="@+id/location"
-        android:layout_width="191dp"
-        android:layout_height="92dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Sousse,TN"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/weathertype"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mintemp" />
-
-    <TextView
-        android:id="@+id/mintemp"
+        android:id="@+id/date"
         android:layout_width="wrap_content"
-        android:layout_height="47dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:includeFontPadding="false"
         android:text="@string/today_may_1"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textSize="32sp"
+        android:textSize="55sp"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
@@ -99,14 +70,14 @@
 
     <TextView
         android:id="@+id/maxtemp"
-        android:layout_width="168dp"
-        android:layout_height="wrap_content"
+        android:layout_width="241dp"
+        android:layout_height="154dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:gravity="bottom|center"
+        android:gravity="bottom|end"
         android:text="@string/_13"
         android:textAppearance="@style/TextAppearance.AppCompat.Display4"
-        android:textSize="75sp"
+        android:textSize="95sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
@@ -121,17 +92,17 @@
 
     <TextView
         android:id="@+id/mintemp"
-        android:layout_width="165dp"
-        android:layout_height="wrap_content"
+        android:layout_width="243dp"
+        android:layout_height="63dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:gravity="top|end"
         android:text="@string/_11"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textSize="35sp"
+        android:textSize="55sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/maxtemp"
         app:layout_constraintVertical_bias="0.0" />
 
     <android.support.constraint.Guideline
@@ -155,6 +126,36 @@
         app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toTopOf="@+id/guideline"
         app:layout_constraintVertical_bias="0.543"
-        app:srcCompat="@drawable/rainy" />
+        app:srcCompat="@drawable/partially_cloudy" />
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="268dp"
+        android:layout_height="92dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="San obispo,CA"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/weathertype"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mintemp" />
+
+    <TextView
+        android:id="@+id/weathertype"
+        android:layout_width="173dp"
+        android:layout_height="93dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="32dp"
+        android:text="Thunder Lightening"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/location"
+        app:layout_constraintTop_toBottomOf="@+id/mintemp" />
 
 </android.support.constraint.ConstraintLayout>
