@@ -1,5 +1,12 @@
 package com.example.asus.weathercast.model;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Created by ASUS on 29/11/2018.
  */
@@ -20,7 +27,7 @@ public class DailyWeatherReport {
     private String weather;
     private String formattedDate;
 
-    public DailyWeatherReport(String cityName, String country, int currentTemp, int maxTemp, int minTemp, String weather, String rawDate) {
+     public DailyWeatherReport(String cityName, String country, int currentTemp, int maxTemp, int minTemp, String weather, String rawDate) {
         this.cityName = cityName;
         this.country = country;
         this.currentTemp = currentTemp;
@@ -30,8 +37,53 @@ public class DailyWeatherReport {
         this.formattedDate = rawDateToReadable(rawDate);
     }
 
-    public String rawDateToReadable(String rawDate){
-        return "May 1";
+     public String rawDateToReadable(String rawDate){
+        String oldstring = rawDate;
+        String month="";
+       switch (rawDate.substring(5,7)){
+           case("11"):
+               month="November";
+               break;
+           case("12"):
+               month="December";
+               break;
+           case("01"):
+               month="January";
+               break;
+           case("02"):
+               month="February";
+               break;
+           case("03"):
+               month="March";
+               break;
+           case("04"):
+               month="April";
+               break;
+           case("05"):
+               month="MAy";
+               break;
+           case("06"):
+               month="June";
+               break;
+           case("07"):
+               month="July";
+               break;
+           case("08"):
+               month="August";
+               break;
+           case("09"):
+               month="September";
+               break;
+           case("10"):
+               month="October";
+               break;
+
+
+      }
+
+       Log.v("rawDATA",month+" "+rawDate.substring(8,10) );
+
+        return month+" "+rawDate.substring(8,10);
     }
 
 

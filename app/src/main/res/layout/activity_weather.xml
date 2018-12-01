@@ -2,9 +2,10 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/gradient_list"
     tools:context="com.example.asus.weathercast.WeatherActivity">
 
     <TextView
@@ -13,7 +14,7 @@
         android:layout_height="93dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
         android:text="Rain"
         android:textAlignment="center"
         android:textSize="30sp"
@@ -27,7 +28,8 @@
         android:layout_width="191dp"
         android:layout_height="92dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
         android:text="Sousse,TN"
         android:textAlignment="center"
         android:textSize="30sp"
@@ -37,24 +39,23 @@
         app:layout_constraintTop_toBottomOf="@+id/mintemp" />
 
     <TextView
-        android:id="@+id/mintemp"
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="47dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:includeFontPadding="false"
         android:text="@string/today_may_1"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textSize="32sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@+id/maxtemp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="84dp"
-        android:layout_height="46dp"
+        android:layout_width="73dp"
+        android:layout_height="33dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="4dp"
         android:contentDescription="@string/umbrella_picture"
@@ -71,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1" />
+        app:layout_constraintGuide_percent="0.07" />
 
     <TextView
         android:id="@+id/textView"
@@ -84,11 +85,11 @@
         android:text="@string/umbrella"
         android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:textColor="#800080"
-        android:textSize="28sp"
+        android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35" />
+        app:layout_constraintVertical_bias="0.666" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline3"
@@ -102,11 +103,10 @@
         android:layout_width="168dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:gravity="bottom|center"
+        android:gravity="top|bottom|center|end"
         android:text="@string/_13"
         android:textAppearance="@style/TextAppearance.AppCompat.Display4"
-        android:textSize="75sp"
+        android:textSize="70sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
@@ -121,17 +121,17 @@
 
     <TextView
         android:id="@+id/mintemp"
-        android:layout_width="165dp"
+        android:layout_width="168dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="44dp"
         android:layout_marginLeft="16dp"
         android:gravity="top|end"
         android:text="@string/_11"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textSize="35sp"
+        android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/maxtemp"
         app:layout_constraintVertical_bias="0.0" />
 
     <android.support.constraint.Guideline
@@ -145,8 +145,9 @@
         android:id="@+id/imageView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:contentDescription="@string/weather"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
@@ -156,5 +157,14 @@
         app:layout_constraintTop_toTopOf="@+id/guideline"
         app:layout_constraintVertical_bias="0.543"
         app:srcCompat="@drawable/rainy" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/content_weather_reports"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location" />
 
 </android.support.constraint.ConstraintLayout>

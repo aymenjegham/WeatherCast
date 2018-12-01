@@ -6,4 +6,6 @@
     <string name="_11">11°C</string>
     <string name="_13">13°C</string>
     <string name="weather">Weather</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="clear">Clear</string>
 </resources>
