@@ -6,67 +6,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_list"
-    tools:context="com.example.asus.weathercast.WeatherActivity">
+    tools:context="com.example.asus.weathercast.WeatherActivity"
+    tools:layout_editor_absoluteY="25dp">
 
     <TextView
         android:id="@+id/weathertype"
-        android:layout_width="151dp"
-        android:layout_height="93dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:text="Thunder Lightning"
+        android:text="Clear"
         android:textAlignment="center"
-        android:textSize="30sp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/location"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toEndOf="@+id/location"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
     <TextView
         android:id="@+id/location"
-        android:layout_width="155dp"
-        android:layout_height="92dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:gravity="center_vertical"
         android:text="Hammam Sousse,TN"
         android:textAlignment="center"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/weathertype"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
-        android:layout_height="47dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="24dp"
         android:includeFontPadding="false"
-        android:text="@string/today_may_1"
+        android:text="Today,December 14"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textSize="32sp"
-        app:layout_constraintBottom_toTopOf="@+id/maxtemp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="84dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="4dp"
+        android:layout_height="22dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/umbrella_picture"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.363"
         app:srcCompat="@drawable/umbrella" />
 
     <android.support.constraint.Guideline
@@ -79,19 +73,19 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="22dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/finger_paint"
         android:includeFontPadding="false"
         android:text="@string/umbrella"
         android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:textColor="#800080"
-        android:textSize="22sp"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline3"
@@ -102,18 +96,19 @@
 
     <TextView
         android:id="@+id/maxtemp"
-        android:layout_width="168dp"
-        android:layout_height="95dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:gravity="bottom|end"
-        android:text="@string/_13"
+        android:text="15°C"
         android:textAppearance="@style/TextAppearance.AppCompat.Display4"
-        android:textSize="75sp"
+        android:textSize="50sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline4"
@@ -124,17 +119,19 @@
 
     <TextView
         android:id="@+id/mintemp"
-        android:layout_width="165dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="24dp"
         android:gravity="top|end"
-        android:text="@string/_11"
+        android:text="13°C"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textSize="35sp"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/maxtemp"
-        app:layout_constraintVertical_bias="0.838" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline6"
@@ -145,23 +142,25 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="0dp"
+        android:layout_width="139dp"
         android:layout_height="127dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/weather"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toEndOf="@+id/maxtemp"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:srcCompat="@drawable/sunny" />
+        app:srcCompat="@drawable/cloud_night" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.56" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline8"
@@ -175,8 +174,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/guideline2"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

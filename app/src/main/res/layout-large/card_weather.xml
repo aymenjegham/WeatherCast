@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:text="Wednesday, 21h"
                 android:textColor="#595959"
-                android:textSize="20sp" />
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/weather_description"
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/clear"
                 android:textColor="#595959"
-                android:textSize="16sp" />
+                android:textSize="20sp" />
 
 
         </LinearLayout>
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:text="13°"
                 android:textColor="#595959"
-                android:textSize="20sp" />
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/weather_temp_low"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:text="11°"
                 android:textColor="#595959"
-                android:textSize="16sp" />
+                android:textSize="20sp" />
 
 
         </LinearLayout>

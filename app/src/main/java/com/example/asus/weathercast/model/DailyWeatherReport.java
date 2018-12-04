@@ -27,7 +27,13 @@ public class DailyWeatherReport {
     private String weather;
     private String formattedDate;
 
-     public DailyWeatherReport(String cityName, String country, int currentTemp, int maxTemp, int minTemp, String weather, String rawDate) {
+    public String getRawdate() {
+        return rawdate;
+    }
+
+    private String rawdate;
+
+    public DailyWeatherReport(String cityName, String country, int currentTemp, int maxTemp, int minTemp, String weather, String rawDate) {
         this.cityName = cityName;
         this.country = country;
         this.currentTemp = currentTemp;
@@ -35,6 +41,7 @@ public class DailyWeatherReport {
         this.minTemp = minTemp;
         this.weather = weather;
         this.formattedDate = rawDateToReadable(rawDate);
+        this.rawdate=rawDate;
     }
 
      public String rawDateToReadable(String rawDate){
@@ -81,7 +88,7 @@ public class DailyWeatherReport {
 
       }
 
-       Log.v("rawDATA",month+" "+rawDate.substring(8,10) );
+       Log.v("rawDATA",month+" "+rawDate );
 
         return month+" "+rawDate.substring(8,10);
     }

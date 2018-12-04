@@ -44,6 +44,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.jar.JarException;
 
 public class WeatherActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks,LocationListener {
@@ -56,6 +57,9 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     private GoogleApiClient mGoogleApiClient;
     private final int PERMISSION_LOCATION=111;
     private ArrayList<DailyWeatherReport> weatherReportList= new ArrayList<>();
+    boolean state=true;
+    int ctof,ftoc,ctof2,ftoc2;
+
 
     private ImageView weatherIcon;
     private ImageView weatherIconMini;
@@ -94,6 +98,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
 
 
+
         mGoogleApiClient=new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .enableAutoManage(this,this)
@@ -105,6 +110,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
     public void downloadWeatherData(Location location){
         final String fullCoords= URL_COORD +location.getLatitude() + "&lon=" + location.getLongitude();
+        //final String fullCoords=URL_COORD +71.2080+ "&lon=" +46.8139 ; // for testing purposes
         final String url = URL_BASE +fullCoords+URL_UNITS+URL_API_KEY;
         Log.v("WEATHERDEBUG","url: "+url);
         Toast.makeText(this, fullCoords, Toast.LENGTH_LONG).show();
@@ -163,28 +169,76 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     }
 
 
+
     public void updateUi(){
         if(weatherReportList.size()>0){
             DailyWeatherReport report=weatherReportList.get(0);
+            Date currentTime = Calendar.getInstance().getTime();
+            String ct=currentTime.toString().substring(11,13);
+            int time=Integer.valueOf(ct);
+
+
             switch (report.getWeather()){
-                case DailyWeatherReport.WEATHER_TYPE_CLOUDS:
-                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.cloudy));
+                case (DailyWeatherReport.WEATHER_TYPE_CLOUDS) :
+                    if(time <18 && time> 06){
+                        weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.clouds));
+                    }else{
+                        weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.cloud_night));}
+
                     break;
                 case DailyWeatherReport.WEATHER_TYPE_RAIN:
-                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.rainy));
+                    if(time <18 && time> 06){
+                        weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.rain_sun));
+                     }else{
+                        weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.rain_night));
+                     }
+                        break;
                 case DailyWeatherReport.WEATHER_TYPE_SNOW:
                     weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.snow));
+                    break;
                 case DailyWeatherReport.WEATHER_TYPE_WIND:
                     weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.thunder_lightning));
+                    break;
+                case DailyWeatherReport.WEATHER_TYPE_CLEAR:
+                    if(time <18 && time> 06){
+                        weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.sun));
+                    }else{
+                        weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.moon));}
+                        break;
                 default:
-                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.sunny));
+                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.moon));
             }
+
             weatherDate.setText("Today,"+report.getFormattedDate());
             Log.v("currentTIME",report.getFormattedDate());
             currentTemp.setText(Integer.toString(report.getMaxTemp())+"°C");
             lowTemp.setText(Integer.toString(report.getMinTemp())+"°C");
             cityCountry.setText(report.getCityName()+", "+ report.getCountry());
             weatherDescription.setText(report.getWeather());
+             ctof =  (report.getMaxTemp()*9/5)+32;
+             ftoc=report.getMaxTemp();
+            ctof2 =(report.getMinTemp()*9/5)+32;
+            ftoc2=report.getMinTemp();
+
+            currentTemp.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if(state == true){
+                        currentTemp.setText(Integer.toString(ctof)+"°F");
+                        lowTemp.setText(Integer.toString(ctof2)+"°F");
+                        mAdapter.notifyDataSetChanged();
+                        state=false;
+                    }else if(state == false){
+                        currentTemp.setText(Integer.toString(ftoc)+"°C");
+                        lowTemp.setText(Integer.toString(ftoc2)+"°C");
+                        mAdapter.notifyDataSetChanged();
+                        state =true;
+
+                    }
+                }
+            });
+
         }
 
     }
@@ -252,25 +306,31 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
         private ArrayList<DailyWeatherReport> mDailyWeatherReport;
 
+
         public WeatherAdapter(ArrayList<DailyWeatherReport> mDailyWeatherReport) {
             this.mDailyWeatherReport = mDailyWeatherReport;
-        }
+         }
 
 
         @Override
-        public void onBindViewHolder(WeatherViewHolder holder, int position) {
-            DailyWeatherReport report =mDailyWeatherReport.get(position);
+        public void onBindViewHolder(final WeatherViewHolder holder, final int position) {
+            final DailyWeatherReport report =mDailyWeatherReport.get(position);
             holder.updateUi(report);
-
         }
 
         @Override
         public long getItemId(int position) {
-            return super.getItemId(position);
+              return super.getItemId(position);
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return super.getItemViewType(position);
         }
 
         @Override
         public int getItemCount() {
+            Log.v("sizeofadapter",String.valueOf(mDailyWeatherReport.size()));
             return mDailyWeatherReport.size();
         }
 
@@ -304,23 +364,53 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         }
 
 
-        public void updateUi(DailyWeatherReport report){
+        public void updateUi(final DailyWeatherReport report){
             Date currentTime = Calendar.getInstance().getTime();
-            Log.v("datenow",report.getFormattedDate().substring(9,11));
+            Calendar c= GregorianCalendar.getInstance();
 
                String today= (currentTime.toString()).substring(8,10);
                String apitoday=report.getFormattedDate().substring(9,11);
+            String timeOfDay =(report.getRawdate()).substring(11,13);
+            String day=(report.getRawdate()).substring(8,10);
+            String month=(report.getRawdate()).substring(5,7);
+            String year=(report.getRawdate()).substring(0,4);
+           // c.set(Integer.valueOf(year),Integer.valueOf(month),Integer.valueOf(day));
+            c.set(Integer.valueOf(year),(Integer.valueOf(month))-1,Integer.valueOf(day));
+            int dayofweek =c.get(Calendar.DAY_OF_WEEK);
+            Log.v("currenttime",year+" "+month+" "+day+"   "+Calendar.MONDAY+ " "+String.valueOf(dayofweek));
 
                 int actualtime =Integer.valueOf(today);
                 int apitime=Integer.valueOf(apitoday);
 
                 if( actualtime == apitime){
-                    weatherDate.setText("Today");
+                    weatherDate.setText("Today"+", "+timeOfDay+"h");
 
                 }else if( apitime==actualtime+1){
-                    weatherDate.setText("Tomorrow");
+                    weatherDate.setText("Tomorrow"+", "+timeOfDay+"h");
                 }else{
-                    weatherDate.setText(report.getFormattedDate());
+                    switch (dayofweek){
+                        case(Calendar.MONDAY):
+                            weatherDate.setText("Monday"+", "+timeOfDay+"h");
+                            break;
+                        case(Calendar.TUESDAY):
+                            weatherDate.setText("Tuesday"+", "+timeOfDay+"h");
+                            break;
+                        case(Calendar.WEDNESDAY):
+                            weatherDate.setText("Wednesday"+", "+timeOfDay+"h");
+                            break;
+                        case(Calendar.THURSDAY):
+                            weatherDate.setText("Thursday"+", "+timeOfDay+"h");
+                            break;
+                        case(Calendar.FRIDAY):
+                            weatherDate.setText("Friday"+", "+timeOfDay+"h");
+                            break;
+                        case(Calendar.SATURDAY):
+                            weatherDate.setText("Saturday"+", "+timeOfDay+"h");
+                            break;
+                        case(Calendar.SUNDAY):
+                            weatherDate.setText("Sunday"+", "+timeOfDay+"h");
+                            break;
+                    }
                 }
 
 
@@ -328,20 +418,38 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
             tempHigh.setText(Integer.toString(report.getMaxTemp())+"°C");
             tempLow.setText(Integer.toString(report.getMinTemp())+"°C");
 
+            if(state == false){
+                int val1=((report.getMaxTemp())*9/5)+32;
+                int val2=((report.getMinTemp())*9/5)+32;
+                tempHigh.setText(String.valueOf(val1)+"°F");
+                tempLow.setText(String.valueOf(val2)+"°F");
+            }else if(state == true){
+                tempHigh.setText(Integer.toString(report.getMaxTemp())+"°C");
+                tempLow.setText(Integer.toString(report.getMinTemp())+"°C");
+            }
+
+
+
+
+
+
 
 
             switch (report.getWeather()){
                 case DailyWeatherReport.WEATHER_TYPE_CLOUDS:
-                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.cloudy_mini));
+                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.cloud_min));
                     break;
                 case DailyWeatherReport.WEATHER_TYPE_RAIN:
-                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.rainy_mini));
+                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.rain_min));
+                    break;
                 case DailyWeatherReport.WEATHER_TYPE_SNOW:
-                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.snow_mini));
+                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.snow_min));
+                    break;
                 case DailyWeatherReport.WEATHER_TYPE_WIND:
-                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.thunder_lightning_mini));
+                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.thunder_min));
+                    break;
                 default:
-                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.sunny_mini));
+                    weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.sun_min));
             }
         }
     }
