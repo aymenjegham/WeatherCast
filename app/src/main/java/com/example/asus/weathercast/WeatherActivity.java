@@ -1,9 +1,12 @@
 package com.example.asus.weathercast;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -59,6 +62,10 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     private ArrayList<DailyWeatherReport> weatherReportList= new ArrayList<>();
     boolean state=true;
     int ctof,ftoc,ctof2,ftoc2;
+    public String statevalue2;
+
+
+
 
 
     private ImageView weatherIcon;
@@ -69,6 +76,8 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     private TextView cityCountry;
     private TextView weatherDescription;
     WeatherAdapter mAdapter;
+    SharedPreferences sharedPreferences;
+    Context context;
 
 
     @Override
@@ -94,6 +103,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         recyclerview.setAdapter(mAdapter);
         LinearLayoutManager layoutmanager =new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         recyclerview.setLayoutManager(layoutmanager);
+
 
 
 
@@ -211,14 +221,34 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
             weatherDate.setText("Today,"+report.getFormattedDate());
             Log.v("currentTIME",report.getFormattedDate());
-            currentTemp.setText(Integer.toString(report.getMaxTemp())+"°C");
-            lowTemp.setText(Integer.toString(report.getMinTemp())+"°C");
-            cityCountry.setText(report.getCityName()+", "+ report.getCountry());
-            weatherDescription.setText(report.getWeather());
-             ctof =  (report.getMaxTemp()*9/5)+32;
-             ftoc=report.getMaxTemp();
+
+
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            String stateValue = sharedPreferences.getString("STATE", "default value");
+
+            ctof =  (report.getMaxTemp()*9/5)+32;
+            ftoc=report.getMaxTemp();
             ctof2 =(report.getMinTemp()*9/5)+32;
             ftoc2=report.getMinTemp();
+
+            switch(stateValue){
+                case "C":
+
+                currentTemp.setText(Integer.toString(report.getMaxTemp())+"°C");
+                lowTemp.setText(Integer.toString(report.getMinTemp())+"°C");
+                state=true;
+                break;
+                case "F":
+                     currentTemp.setText(Integer.toString(ctof)+"°F");
+                    lowTemp.setText(Integer.toString(ctof2)+"°F");
+                    state=false;
+
+                break;
+            }
+
+            cityCountry.setText(report.getCityName()+", "+ report.getCountry());
+            weatherDescription.setText(report.getWeather());
+
 
             currentTemp.setOnClickListener(new View.OnClickListener() {
 
@@ -229,11 +259,20 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
                         lowTemp.setText(Integer.toString(ctof2)+"°F");
                         mAdapter.notifyDataSetChanged();
                         state=false;
+                        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("STATE", "F");
+                        editor.apply();
+
                     }else if(state == false){
                         currentTemp.setText(Integer.toString(ftoc)+"°C");
                         lowTemp.setText(Integer.toString(ftoc2)+"°C");
                         mAdapter.notifyDataSetChanged();
                         state =true;
+                        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("STATE", "C");
+                        editor.apply();
 
                     }
                 }
@@ -415,10 +454,9 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
 
             weatherDescription.setText(report.getWeather());
-            tempHigh.setText(Integer.toString(report.getMaxTemp())+"°C");
-            tempLow.setText(Integer.toString(report.getMinTemp())+"°C");
 
             if(state == false){
+
                 int val1=((report.getMaxTemp())*9/5)+32;
                 int val2=((report.getMinTemp())*9/5)+32;
                 tempHigh.setText(String.valueOf(val1)+"°F");
@@ -426,7 +464,11 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
             }else if(state == true){
                 tempHigh.setText(Integer.toString(report.getMaxTemp())+"°C");
                 tempLow.setText(Integer.toString(report.getMinTemp())+"°C");
+
             }
+
+
+
 
 
 

@@ -14,6 +14,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="Clear"
         android:textAlignment="center"
@@ -28,6 +29,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="Hammam Sousse,TN"
         android:textAlignment="center"
@@ -39,23 +41,21 @@
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
-        android:layout_height="36dp"
+        android:layout_height="37dp"
         android:layout_marginLeft="24dp"
         android:includeFontPadding="false"
         android:text="Today,December 14"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textSize="22sp"
+        android:textSize="23sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="84dp"
-        android:layout_height="22dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="62dp"
+        android:layout_height="0dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:contentDescription="@string/umbrella_picture"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
@@ -81,7 +81,7 @@
         android:text="@string/umbrella"
         android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:textColor="#800080"
-        android:textSize="17sp"
+        android:textSize="19sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -92,7 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.24" />
+        app:layout_constraintGuide_percent="0.3" />
 
     <TextView
         android:id="@+id/maxtemp"
@@ -160,7 +160,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.56" />
+        app:layout_constraintGuide_percent="0.5202703" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline8"
@@ -171,7 +171,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/content_weather_reports"
-        android:layout_width="0dp"
+        android:layout_width="286dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

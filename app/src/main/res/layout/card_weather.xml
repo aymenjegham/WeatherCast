@@ -12,9 +12,10 @@
 
         <ImageView
             android:id="@+id/weathericon"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:paddingStart="15dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="10dp"
+            android:paddingStart="20dp"
             android:src="@drawable/cloudy_mini" />
 
         <LinearLayout
@@ -55,6 +56,7 @@
                 android:id="@+id/weather_temp_high"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingEnd="10dp"
                 android:text="13°"
                 android:textColor="#595959"
                 android:textSize="20sp" />
@@ -63,6 +65,7 @@
                 android:id="@+id/weather_temp_low"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingEnd="10dp"
                 android:text="11°"
                 android:textColor="#595959"
                 android:textSize="16sp" />
