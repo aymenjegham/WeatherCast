@@ -132,8 +132,6 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         if (!isLocationEnabled()){
            // showAlert(1);
             displayLocationSettingsRequest(this);
-
-
             Log.v("GPSenabled ?","nooooooooooooooooo");
 
 
@@ -245,7 +243,6 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
         }
 
-        Log.v("resultresponse",String.valueOf(resultCode)) ;
 
     }
 
@@ -291,8 +288,6 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         //final String fullCoords=URL_COORD +71.2080+ "&lon=" +46.8139 ; // for testing purposes
         final String url = URL_BASE +fullCoords+URL_UNITS+URL_API_KEY;
         Log.v("WEATHERDEBUG","url: "+url);
-        //Toast.makeText(this, fullCoords, Toast.LENGTH_LONG).show();
-
 
         final JsonObjectRequest jsonRequest =new JsonObjectRequest(Request.Method.GET, url,null, new Response.Listener<JSONObject>() {
             @Override
@@ -307,6 +302,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
                     JSONArray list =response.getJSONArray("list");
                     Log.v("listsize",Integer.toString(list.length()));
+                    weatherReportList.clear();
 
                     for(int i=0;i<list.length();i++){
                         JSONObject obj =list.getJSONObject(i);
@@ -323,6 +319,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
                         DailyWeatherReport report =new DailyWeatherReport(cityName,country,currentTemp.intValue(),maxTemp.intValue(),minTemp.intValue(),weatherType,rawDate);
                         Log.v("JSON","printing from class "+rawDate);
+                        Log.v("adapterduplication",weatherReportList.toString());
                         weatherReportList.add(report);
                          i++;
                          i++;
