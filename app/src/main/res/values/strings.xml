@@ -1,11 +1,23 @@
 <resources>
     <string name="app_name">Umbrella!</string>
-    <string name="umbrella">Umbrella!</string>
+    <string name="umbrellaloogo">Umbrella!</string>
     <string name="umbrella_picture">Umbrella picture</string>
-    <string name="today_may_1">Today,November 30</string>
+    <string name="today">Today,</string>
     <string name="_11">11°C</string>
     <string name="_13">13°C</string>
     <string name="weather">Weather</string>
-    <string name="tomorrow">Tomorrow</string>
+    <string name="tomorrow">Tomorrow,</string>
+    <string name="monday">Monday,</string>
+    <string name="tuesday">Tuesday,</string>
+    <string name="wednesday">Wednesday,</string>
+    <string name="thursday">Thursday,</string>
+    <string name="friday">Friday,</string>
+    <string name="saturday">Saturday,</string>
+    <string name="sunday">Sunday,</string>
     <string name="clear">Clear</string>
+    <string name="clouds">Clouds</string>
+    <string name="internet_not_available2">Please Make sure internet is available and tap to refresh !</string>
+    <string name="internet_not_available">No internet available</string>
+    <string name="umbrella">Umbrella!</string>
+    <string name="umbrella_string_umbrella_picture">Umbrella @string/umbrella_picture</string>
 </resources>

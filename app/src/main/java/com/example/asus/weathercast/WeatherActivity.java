@@ -385,7 +385,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
                     weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.moon));
             }
 
-            weatherDate.setText("Today,"+report.getFormattedDate());
+            weatherDate.setText(getString(R.string.today)+report.getFormattedDate());
             Log.v("currentTIME",report.getFormattedDate());
 
 
@@ -591,32 +591,32 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
                 int apitime=Integer.valueOf(apitoday);
 
                 if( actualtime == apitime){
-                    weatherDate.setText("Today"+", "+timeOfDay+"h");
+                    weatherDate.setText(getString(R.string.today)+timeOfDay+"h");
 
                 }else if( apitime==actualtime+1){
-                    weatherDate.setText("Tomorrow"+", "+timeOfDay+"h");
+                    weatherDate.setText(getString(R.string.tomorrow)+timeOfDay+"h");
                 }else{
                     switch (dayofweek){
                         case(Calendar.MONDAY):
-                            weatherDate.setText("Monday"+", "+timeOfDay+"h");
+                            weatherDate.setText(getString(R.string.monday)+timeOfDay+"h");
                             break;
                         case(Calendar.TUESDAY):
-                            weatherDate.setText("Tuesday"+", "+timeOfDay+"h");
+                            weatherDate.setText(getString(R.string.tuesday)+timeOfDay+"h");
                             break;
                         case(Calendar.WEDNESDAY):
-                            weatherDate.setText("Wednesday"+", "+timeOfDay+"h");
+                            weatherDate.setText(getString(R.string.wednesday)+timeOfDay+"h");
                             break;
                         case(Calendar.THURSDAY):
-                            weatherDate.setText("Thursday"+", "+timeOfDay+"h");
+                            weatherDate.setText(getString(R.string.thursday)+timeOfDay+"h");
                             break;
                         case(Calendar.FRIDAY):
-                            weatherDate.setText("Friday"+", "+timeOfDay+"h");
+                            weatherDate.setText(getString(R.string.friday)+timeOfDay+"h");
                             break;
                         case(Calendar.SATURDAY):
-                            weatherDate.setText("Saturday"+", "+timeOfDay+"h");
+                            weatherDate.setText(getString(R.string.saturday)+timeOfDay+"h");
                             break;
                         case(Calendar.SUNDAY):
-                            weatherDate.setText("Sunday"+", "+timeOfDay+"h");
+                            weatherDate.setText(getString(R.string.sunday)+timeOfDay+"h");
                             break;
                     }
                 }

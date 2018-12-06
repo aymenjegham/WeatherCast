@@ -1,8 +1,13 @@
 package com.example.asus.weathercast.model;
 
+import android.app.Application;
+import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+
+import com.example.asus.weathercast.R;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 
 public class DailyWeatherReport {
 
-    public static final  String  WEATHER_TYPE_CLOUDS="Clouds";
+     public static final  String  WEATHER_TYPE_CLOUDS="Clouds";
     public static final  String  WEATHER_TYPE_CLEAR="Clear";
     public static final  String  WEATHER_TYPE_RAIN="Rain";
     public static final  String  WEATHER_TYPE_WIND="Wind";

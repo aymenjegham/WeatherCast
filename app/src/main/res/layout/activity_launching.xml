@@ -17,7 +17,8 @@
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="43dp"
-        android:text="Umbrella!"
+        android:text="@string/umbrellaloogo"
+        android:textColor="@android:color/white"
         android:textSize="45sp" />
 
     <ImageView
@@ -26,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:contentDescription="@string/umbrella_string_umbrella_picture"
         android:src="@mipmap/umbrella" />
 
 </RelativeLayout>
