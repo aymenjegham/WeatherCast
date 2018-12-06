@@ -158,6 +158,50 @@
         app:layout_constraintStart_toEndOf="@+id/location"
         app:layout_constraintTop_toBottomOf="@+id/mintemp" />
 
+    <ImageView
+        android:id="@+id/internetlost"
+        android:layout_width="142dp"
+        android:layout_height="177dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginStart="232dp"
+        android:contentDescription="@string/weather"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/moon" />
+
+    <TextView
+        android:id="@+id/internetlostmsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="No internet available"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/internetlost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/internetlostmsg2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:text="Please Make sure internet is available and tap to refresh !"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/content_weather_reports"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/internetlost"
+        app:layout_constraintVertical_bias="0.0" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/content_weather_reports"
         android:layout_width="0dp"

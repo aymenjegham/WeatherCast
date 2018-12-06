@@ -16,7 +16,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:text="Clear"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/location"
@@ -31,7 +30,6 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:text="Hammam Sousse,TN"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
@@ -44,7 +42,6 @@
         android:layout_height="37dp"
         android:layout_marginLeft="24dp"
         android:includeFontPadding="false"
-        android:text="Today,December 14"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textSize="23sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
@@ -102,7 +99,6 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:gravity="bottom|end"
-        android:text="15°C"
         android:textAppearance="@style/TextAppearance.AppCompat.Display4"
         android:textSize="50sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
@@ -125,7 +121,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="24dp"
         android:gravity="top|end"
-        android:text="13°C"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
@@ -152,8 +147,53 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:srcCompat="@drawable/cloud_night" />
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+    <ImageView
+        android:id="@+id/internetlost"
+        android:layout_width="142dp"
+        android:layout_height="177dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginStart="232dp"
+        android:contentDescription="@string/weather"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/moon" />
+
+    <TextView
+        android:id="@+id/internetlostmsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="No internet available"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/internetlost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/internetlostmsg2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:text="Please Make sure internet is available and tap to refresh !"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/content_weather_reports"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/internetlost"
+        app:layout_constraintVertical_bias="0.0" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"

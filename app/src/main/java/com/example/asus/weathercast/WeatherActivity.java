@@ -1,18 +1,29 @@
 package com.example.asus.weathercast;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,9 +46,15 @@ import com.android.volley.toolbox.Volley;
 import com.example.asus.weathercast.model.DailyWeatherReport;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,6 +80,8 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     boolean state=true;
     int ctof,ftoc,ctof2,ftoc2;
     public String statevalue2;
+    protected LocationRequest locationRequest;
+    int REQUEST_CHECK_SETTINGS = 100;
 
 
 
@@ -70,14 +89,18 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
     private ImageView weatherIcon;
     private ImageView weatherIconMini;
+    private ImageView sadface ;
     private TextView weatherDate;
     private TextView currentTemp;
     private TextView lowTemp;
     private TextView cityCountry;
     private TextView weatherDescription;
+    private TextView msgint1;
+    private TextView msgint2;
     WeatherAdapter mAdapter;
     SharedPreferences sharedPreferences;
     Context context;
+    LocationManager locationManager;
 
 
     @Override
@@ -97,12 +120,52 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         lowTemp=(TextView)findViewById(R.id.mintemp);
         cityCountry=(TextView)findViewById(R.id.location);
         weatherDescription=(TextView)findViewById(R.id.weathertype);
+        sadface=(ImageView)findViewById(R.id.internetlost);
+        sadface.setVisibility(View.INVISIBLE);
+        msgint1=(TextView)findViewById(R.id.internetlostmsg);
+        msgint1.setVisibility(View.INVISIBLE);
+        msgint2=(TextView)findViewById(R.id.internetlostmsg2);
+        msgint2.setVisibility(View.INVISIBLE);
+
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        if (!isLocationEnabled()){
+           // showAlert(1);
+            displayLocationSettingsRequest(this);
+
+
+            Log.v("GPSenabled ?","nooooooooooooooooo");
+
+
+        }
+
+
 
         RecyclerView recyclerview =(RecyclerView)findViewById(R.id.content_weather_reports);
         mAdapter =new WeatherAdapter(weatherReportList);
         recyclerview.setAdapter(mAdapter);
         LinearLayoutManager layoutmanager =new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         recyclerview.setLayoutManager(layoutmanager);
+
+        ConnectivityManager cm = (ConnectivityManager)getSystemService(this.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        Log.v("checkinternet",String.valueOf( ni));
+        if(ni ==null){
+                sadface.setVisibility(View.VISIBLE);
+                sadface.setImageDrawable(getResources().getDrawable(R.drawable.sadface));
+                msgint1.setVisibility(View.VISIBLE);
+                msgint2.setVisibility(View.VISIBLE);
+                sadface.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                        overridePendingTransition( 0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition( 0, 0);
+                    }
+                });
+
+        }
 
 
 
@@ -116,14 +179,120 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
                 .addOnConnectionFailedListener(this)
                 .build();
 
+
+
     }
+
+    private boolean isLocationEnabled() {
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+
+    private void displayLocationSettingsRequest(Context context) {
+        GoogleApiClient googleApiClient = new GoogleApiClient.Builder(context)
+                .addApi(LocationServices.API).build();
+        googleApiClient.connect();
+
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(10000 / 2);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
+        builder.setAlwaysShow(true);
+
+        PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
+        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+            @Override
+            public void onResult(LocationSettingsResult result) {
+                final Status status = result.getStatus();
+                switch (status.getStatusCode()) {
+                    case LocationSettingsStatusCodes.SUCCESS:
+                        Log.i("LOCATIONPROMPT", "All location settings are satisfied.");
+                        break;
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        Log.i("LOCATIONPROMPT", "Location settings are not satisfied. Show the user a dialog to upgrade location settings ");
+
+                        try {
+                            // Show the dialog by calling startResolutionForResult(), and check the result
+                            // in onActivityResult().
+                            status.startResolutionForResult(WeatherActivity.this, REQUEST_CHECK_SETTINGS);
+                            Log.i("LOCATIONPROMPT","connected");
+                        } catch (IntentSender.SendIntentException e) {
+                            Log.i("LOCATIONPROMPT", "PendingIntent unable to execute request.");
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        Log.i("LOCATIONPROMPT", "Location settings are inadequate, and cannot be fixed here. Dialog not created.");
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(resultCode){
+            case -1:
+                finish();
+                overridePendingTransition( 0, 0);
+                startActivity(getIntent());
+                overridePendingTransition( 0, 0);
+                break;
+            case 0:
+                break;
+
+        }
+
+        Log.v("resultresponse",String.valueOf(resultCode)) ;
+
+    }
+
+    /*
+    private void showAlert(final int status) {
+        String message, title, btnText;
+        if (status == 1) {
+            message = "Your Locations Settings is set to 'Off'.\nPlease Enable Location to " +
+                    "use this app";
+            title = "Enable Location";
+            btnText = "Location Settings";
+        } else {
+            message = "Please allow this app to access location!";
+            title = "Permission access";
+            btnText = "Grant";
+        }
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setCancelable(false);
+        dialog.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(btnText, new DialogInterface.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.M)
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        if (status == 1) {
+                            Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivity(myIntent);
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        finish();
+                    }
+                });
+        dialog.show();
+    }
+*/
 
     public void downloadWeatherData(Location location){
         final String fullCoords= URL_COORD +location.getLatitude() + "&lon=" + location.getLongitude();
         //final String fullCoords=URL_COORD +71.2080+ "&lon=" +46.8139 ; // for testing purposes
         final String url = URL_BASE +fullCoords+URL_UNITS+URL_API_KEY;
         Log.v("WEATHERDEBUG","url: "+url);
-        Toast.makeText(this, fullCoords, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, fullCoords, Toast.LENGTH_LONG).show();
+
 
         final JsonObjectRequest jsonRequest =new JsonObjectRequest(Request.Method.GET, url,null, new Response.Listener<JSONObject>() {
             @Override
@@ -224,7 +393,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
 
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            String stateValue = sharedPreferences.getString("STATE", "default value");
+            String stateValue = sharedPreferences.getString("STATE", "C");
 
             ctof =  (report.getMaxTemp()*9/5)+32;
             ftoc=report.getMaxTemp();
@@ -291,12 +460,15 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
             startLocationServices();
         }
 
+
+
     }
+
+
 
     @Override
     public void onConnectionSuspended(int i) {
-
-    }
+     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -310,7 +482,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     public void startLocationServices(){
         Log.v("Debugging","startedlocationservices started");
         try{
-            LocationRequest req = LocationRequest.create().setPriority(LocationRequest.PRIORITY_LOW_POWER);
+            LocationRequest req = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, req, this);
             Log.v("Debugging", "Requesting location updates");
         }catch (SecurityException exception){

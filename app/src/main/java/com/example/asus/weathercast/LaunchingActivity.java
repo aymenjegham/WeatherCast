@@ -51,7 +51,9 @@ public class LaunchingActivity extends AppCompatActivity {
                 imageView.startAnimation(animation_3);
                 finish();
                 Intent i = new Intent(getBaseContext(),WeatherActivity.class);
+                overridePendingTransition( 0, 0);
                 startActivity(i);
+                overridePendingTransition( 0, 0);
             }
 
             @Override

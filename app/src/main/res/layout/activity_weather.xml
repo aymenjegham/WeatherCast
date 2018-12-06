@@ -13,9 +13,9 @@
         android:id="@+id/weathertype"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:gravity="center_vertical"
-        android:text="Clear"
         android:textAlignment="center"
         android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
@@ -25,12 +25,11 @@
 
     <TextView
         android:id="@+id/location"
-        android:layout_width="173dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center_vertical"
         android:paddingStart="5dp"
-        android:text="Hammam Sousse,TN"
         android:textAlignment="center"
         android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
@@ -45,7 +44,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:includeFontPadding="false"
-        android:text="Today,December 03"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -100,11 +98,10 @@
         android:id="@+id/maxtemp"
         android:layout_width="173dp"
         android:layout_height="74dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:gravity="top|bottom|center|end"
-        android:text="14°C"
         android:textAppearance="@style/TextAppearance.AppCompat.Display4"
         android:textSize="50sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
@@ -122,10 +119,9 @@
         android:id="@+id/mintemp"
         android:layout_width="168dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginStart="16dp"
         android:gravity="top|end"
-        android:text="11°C"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="25sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
@@ -142,7 +138,20 @@
         android:contentDescription="@string/weather"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <ImageView
+        android:id="@+id/internetlost"
+        android:layout_width="142dp"
+        android:layout_height="177dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginStart="120dp"
+        android:contentDescription="@string/weather"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/moon" />
 
     <android.support.v7.widget.RecyclerView
@@ -159,6 +168,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.55" />
+
+    <TextView
+        android:id="@+id/internetlostmsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="No internet available"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/internetlost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/internetlostmsg2"
+        android:layout_width="wrap_content"
+        android:layout_height="108dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:text="Please Make sure internet is available and tap to refresh !"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/content_weather_reports"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/internetlost"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>
