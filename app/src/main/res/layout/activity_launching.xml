@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:contentDescription="@string/umbrella_string_umbrella_picture"
+        android:contentDescription="@string/umbrella_picture"
         android:src="@mipmap/umbrella" />
 
 </RelativeLayout>

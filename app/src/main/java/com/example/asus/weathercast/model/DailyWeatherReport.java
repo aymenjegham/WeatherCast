@@ -72,7 +72,7 @@ public class DailyWeatherReport {
                month="April";
                break;
            case("05"):
-               month="MAy";
+               month="May";
                break;
            case("06"):
                month="June";

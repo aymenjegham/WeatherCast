@@ -63,8 +63,10 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.jar.JarException;
 
 public class WeatherActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks,LocationListener {
@@ -385,8 +387,66 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
                     weatherIcon.setImageDrawable(getResources().getDrawable(R.drawable.moon));
             }
 
-            weatherDate.setText(getString(R.string.today)+report.getFormattedDate());
-            Log.v("currentTIME",report.getFormattedDate());
+                Log.v("reportformatteddate",report.getRawdate().substring(8,10));
+            String dateMonth="";
+            String dateDay=report.getRawdate().substring(8,10);
+            String month= (report.getFormattedDate().substring(0,3));
+            Log.v("reportformatteddate2",report.getFormattedDate().substring(0,3));
+
+            switch(month){
+                case "Jan":
+                    dateMonth=getString(R.string.january);
+                    break;
+                case "Feb":
+                    dateMonth=getString(R.string.february);
+                    break;
+                case "Mar":
+                    dateMonth=getString(R.string.march);
+                    break;
+                case "Apr":
+                    dateMonth=getString(R.string.april);
+                    break;
+                case "May":
+                    dateMonth=getString(R.string.may);
+                    break;
+                case "Jun":
+                    dateMonth=getString(R.string.june);
+                    break;
+                case "Jul":
+                    dateMonth=getString(R.string.july);
+                    break;
+                case "Aug":
+                    dateMonth=getString(R.string.august);
+                    break;
+                case "Sep":
+                    dateMonth=getString(R.string.september);
+                    break;
+                case "Oct":
+                    dateMonth=getString(R.string.october);
+                    break;
+                case "Nov":
+                    dateMonth=getString(R.string.november);
+                    break;
+                case "Dec":
+                    dateMonth=getString(R.string.december);
+                    break;
+                default:
+                    dateMonth= month;
+            }
+            Log.v("currentTIME", Locale.getDefault().getDisplayLanguage());
+            String languageUsed=Locale.getDefault().getDisplayLanguage();
+
+            switch (languageUsed){
+                case "français":
+                    weatherDate.setText(getString(R.string.today)+dateDay+" "+dateMonth);
+                    break;
+                case  "English":
+                    weatherDate.setText(getString(R.string.today)+dateMonth+" "+dateDay);
+                    break;
+                default:
+                    weatherDate.setText(getString(R.string.today)+dateMonth+" "+dateDay);
+
+            }
 
 
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -413,7 +473,31 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
             }
 
             cityCountry.setText(report.getCityName()+", "+ report.getCountry());
-            weatherDescription.setText(report.getWeather());
+            Log.v("weatherstate",report.getWeather());
+            String weatherState=report.getWeather();
+            String weather="";
+            switch (weatherState){
+                case "Rain":
+                    weather=getString(R.string.rain);
+                    break;
+                case "Clear":
+                    weather=getString(R.string.clear);
+                    break;
+                case "Clouds":
+                    weather=getString(R.string.clouds);
+                    break;
+                case "Snow":
+                    weather=getString(R.string.snow);
+                    break;
+                case "Wind":
+                    weather=getString(R.string.wind);
+                    break;
+                default:
+                    weather=weatherState;
+
+
+            }
+            weatherDescription.setText(weather);
 
 
             currentTemp.setOnClickListener(new View.OnClickListener() {
@@ -577,7 +661,8 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
             Calendar c= GregorianCalendar.getInstance();
 
                String today= (currentTime.toString()).substring(8,10);
-               String apitoday=report.getFormattedDate().substring(9,11);
+               String apitoday=report.getRawdate().substring(8,10);//report.getFormattedDate().substring(9,11);
+               Log.v("debugtime",apitoday+"  "+report.getRawdate().substring(8,10));
             String timeOfDay =(report.getRawdate()).substring(11,13);
             String day=(report.getRawdate()).substring(8,10);
             String month=(report.getRawdate()).substring(5,7);
@@ -621,8 +706,35 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
                     }
                 }
 
+            String weatherStat=report.getWeather();
+            String weathe="";
+            switch (weatherStat){
+                case "Rain":
+                    weathe=getString(R.string.rain);
+                    break;
+                case "Clear":
+                    weathe=getString(R.string.clear);
+                    break;
+                case "Clouds":
+                    weathe=getString(R.string.clouds);
+                    break;
+                case "Snow":
+                    weathe=getString(R.string.snow);
+                    break;
+                case "Wind":
+                    weathe=getString(R.string.wind);
+                    break;
+                default:
+                    weathe=weatherStat;
 
-            weatherDescription.setText(report.getWeather());
+
+            }
+
+
+
+
+
+            weatherDescription.setText(weathe);
 
             if(state == false){
 
