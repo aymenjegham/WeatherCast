@@ -2,6 +2,7 @@ package com.example.asus.weathercast;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -74,7 +75,7 @@ import java.util.jar.JarException;
 
 import static java.security.AccessController.getContext;
 
-public class WeatherActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks,LocationListener {
+public class WeatherActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks,LocationListener,View.OnClickListener {
 
     final String URL_BASE ="http://api.openweathermap.org/data/2.5/forecast";
     final String URL_COORD="/?lat="; // 51.502653&lon=0.0448183"
@@ -223,7 +224,11 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
          resideMenu.setScaleValue(0.7f);
         resideMenuSetting =new ResideMenuItem(this,R.drawable.ic_settings,"Settings");
         resideMenuHome =new ResideMenuItem(this,R.drawable.ic_home,"Home");
-        resideMenuNew =new ResideMenuItem(this,R.drawable.sun_cloud,"Contact");
+        resideMenuNew =new ResideMenuItem(this,R.drawable.ic_info,"Info");
+
+        resideMenuSetting.setOnClickListener(this);
+        resideMenuHome.setOnClickListener(this);
+        resideMenuNew.setOnClickListener(this);
 
 
         resideMenu.setMenuListener(menuListener);
@@ -651,6 +656,22 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
                 }
             }
         }
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
+       if(v == resideMenuSetting){
+            Intent intent = new Intent(getApplicationContext(),SettingsActivity.class);
+            startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+       }else if(v == resideMenuHome){
+                    resideMenu.closeMenu();
+        }else {
+           Intent intent = new Intent(getApplicationContext(),InfoActivity.class);
+           startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+       }
+
 
 
     }

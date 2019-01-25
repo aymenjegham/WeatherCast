@@ -33,5 +33,6 @@
     <string name="rain">Rain</string>
     <string name="snow">Snow</string>
     <string name="wind">Wind</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 
 </resources>
