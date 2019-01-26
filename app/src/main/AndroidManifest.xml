@@ -37,6 +37,11 @@
                 android:value="com.example.asus.weathercast.WeatherActivity" />
         </activity>
         <activity android:name=".InfoActivity"></activity>
+
+
+        <receiver android:name=".Alarms"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>
