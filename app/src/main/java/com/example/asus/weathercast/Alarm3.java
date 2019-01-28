@@ -4,13 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
-public class Alarms extends BroadcastReceiver {
-
+public class Alarm3 extends BroadcastReceiver {
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-        Log.v("alarmsssss","alarm is up");
+    public void onReceive(Context context, Intent intent3) {
+        Log.v("alarmsssss","alarm evning is up");
     }
+
 }

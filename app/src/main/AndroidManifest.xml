@@ -39,7 +39,13 @@
         <activity android:name=".InfoActivity"></activity>
 
 
-        <receiver android:name=".Alarms"
+        <receiver android:name=".Alarm1"
+            android:enabled="true"
+            android:exported="true"/>
+        <receiver android:name=".Alarm2"
+            android:enabled="true"
+            android:exported="true"/>
+        <receiver android:name=".Alarm3"
             android:enabled="true"
             android:exported="true"/>
     </application>
