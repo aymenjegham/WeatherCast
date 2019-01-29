@@ -7,18 +7,26 @@ import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.Time;
 import java.util.Calendar;
+
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 
 
 public class SettingsActivity extends AppCompatActivity  {
@@ -37,7 +45,8 @@ public class SettingsActivity extends AppCompatActivity  {
     String minute;
     String amorpm;
     String hourandminute;
-    long alarmarray[] = new long[2];
+    public static final String myPref = "preferenceName";
+    Switch aSwitch;
 
 
 
@@ -46,21 +55,169 @@ public class SettingsActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        alarm1=findViewById(R.id.textClock);
+        alarm2=findViewById(R.id.textClock2);
+        alarm3=findViewById(R.id.textClock3);
+        aSwitch=findViewById(R.id.switch1);
+
 
         //gesture swipe to left and to right
         DetectSwipeGestureListener gestureListener = new DetectSwipeGestureListener();
         gestureListener.setActivity(this);
         gestureDetectorCompat = new GestureDetectorCompat(this, gestureListener);
 
+        SharedPreferences notif = getSharedPreferences(myPref,MODE_PRIVATE);
+        String state = notif.getString("ON/OFF","ON");
+         String alarm_1 = notif.getString("alarm1","07:00 AM");
+        String alarm_2 = notif.getString("alarm2","07:00 AM");
+         String alarm_3 = notif.getString("alarm3","07:00 AM");
+        String initial = notif.getString("initiallaunch","yes");
+
+        Log.v("offmonitoring","here:"+state);
 
 
-        alarm1=findViewById(R.id.textClock);
-        alarm2=findViewById(R.id.textClock2);
-        alarm3=findViewById(R.id.textClock3);
 
-        alarm1.setText("07:00 AM");
-        alarm2.setText("12:30 PM");
-        alarm3.setText("05:00 PM");
+        if(initial=="yes"){
+            Calendar calendar =Calendar.getInstance();
+            calendar.set(
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH),
+                    7,
+                    0,
+                    0);
+            setAlarm1(calendar.getTimeInMillis());
+            SharedPreferences.Editor editor3 = getSharedPreferences(myPref,Context.MODE_PRIVATE).edit();
+            editor3.putString("initiallaunch", "no");
+            editor3.commit();
+        }
+
+
+
+        if(state.equals("ON")){
+            Log.v("offmonitoring","passed");
+
+            aSwitch.setChecked(true);
+            alarm1.setText(alarm_1);
+            alarm2.setText(alarm_2);
+            alarm3.setText(alarm_3);
+
+
+        }else {
+
+            alarm1.setText(alarm_1);
+            alarm2.setText(alarm_2);
+            alarm3.setText(alarm_3);
+
+            aSwitch.setChecked(false);
+            AlarmManager alarmManager1 = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            Intent intent1 = new Intent(getApplicationContext(),Alarm1.class);
+            PendingIntent pendingIntent1 = PendingIntent.getBroadcast(getApplicationContext(),1,intent1,FLAG_UPDATE_CURRENT);
+            pendingIntent1.cancel();
+            alarmManager1.cancel(pendingIntent1);
+            alarm1.setTextColor(Color.GRAY);
+            alarm1.setEnabled(false);
+
+            //-----
+
+            AlarmManager alarmManager2 = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            Intent intent2 = new Intent(getApplicationContext(),Alarm1.class);
+            PendingIntent pendingIntent2 = PendingIntent.getBroadcast(getApplicationContext(),1,intent2,FLAG_UPDATE_CURRENT);
+            pendingIntent2.cancel();
+            alarmManager2.cancel(pendingIntent2);
+            alarm2.setTextColor(Color.GRAY);
+            alarm2.setEnabled(false);
+
+            //----
+
+            AlarmManager alarmManager3 = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            Intent intent3 = new Intent(getApplicationContext(),Alarm1.class);
+            PendingIntent pendingIntent3 = PendingIntent.getBroadcast(getApplicationContext(),1,intent3,FLAG_UPDATE_CURRENT);
+            pendingIntent3.cancel();
+            alarmManager3.cancel(pendingIntent3);
+            alarm3.setTextColor(Color.GRAY);
+            alarm3.setEnabled(false);
+
+
+        }
+
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+               if(!isChecked){
+                   AlarmManager alarmManager1 = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                   Intent intent1 = new Intent(getApplicationContext(),Alarm1.class);
+                   PendingIntent pendingIntent1 = PendingIntent.getBroadcast(getApplicationContext(),1,intent1,FLAG_UPDATE_CURRENT);
+                   pendingIntent1.cancel();
+                   alarmManager1.cancel(pendingIntent1);
+                   alarm1.setTextColor(Color.GRAY);
+                   alarm1.setEnabled(false);
+
+                   //-----------
+
+                   AlarmManager alarmManager2 = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                   Intent intent2 = new Intent(getApplicationContext(),Alarm1.class);
+                   PendingIntent pendingIntent2 = PendingIntent.getBroadcast(getApplicationContext(),1,intent2,FLAG_UPDATE_CURRENT);
+                   pendingIntent2.cancel();
+                   alarmManager2.cancel(pendingIntent2);
+                   alarm2.setTextColor(Color.GRAY);
+                   alarm2.setEnabled(false);
+
+                   //-------------
+
+                   AlarmManager alarmManager3 = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                   Intent intent3 = new Intent(getApplicationContext(),Alarm1.class);
+                   PendingIntent pendingIntent3 = PendingIntent.getBroadcast(getApplicationContext(),1,intent3,FLAG_UPDATE_CURRENT);
+                   pendingIntent3.cancel();
+                   alarmManager3.cancel(pendingIntent3);
+                   alarm3.setTextColor(Color.GRAY);
+                   alarm3.setEnabled(false);
+                  // ------
+
+                   SharedPreferences.Editor editor = getSharedPreferences(myPref,Context.MODE_PRIVATE).edit();
+                   editor.putString("ON/OFF", "OFF");
+                   Log.v("offmonitoring","off1");
+                   editor.commit();
+
+               }else{
+                   alarm1.setTextColor(getColor(R.color.colorPrimaryDark));
+                   alarm1.setEnabled(true);
+                   SharedPreferences notif = getSharedPreferences(myPref,MODE_PRIVATE);
+                   long lastalarm1 = notif.getLong("lastalarm1",0);
+                   setAlarm1(lastalarm1);
+
+                   //-----
+
+                   alarm2.setTextColor(getColor(R.color.colorPrimaryDark));
+                   alarm2.setEnabled(true);
+                   long lastalarm2 = notif.getLong("lastalarm2",0);
+                   setAlarm2(lastalarm2);
+
+                   //---
+
+                   alarm3.setTextColor(getColor(R.color.colorPrimaryDark));
+                   alarm3.setEnabled(true);
+                   long lastalarm3 = notif.getLong("lastalarm3",0);
+                   setAlarm3(lastalarm3);
+
+                   //---
+
+                   SharedPreferences.Editor editor = getSharedPreferences(myPref,Context.MODE_PRIVATE).edit();
+                   editor.putString("ON/OFF","ON");
+                   Log.v("offmonitoring","ON1");
+
+                   editor.commit();
+
+               }
+            }
+        });
+
+
+
+
+
+
+
+
 
         alarm1.setOnClickListener(new View.OnClickListener() {
 
@@ -198,6 +355,9 @@ public class SettingsActivity extends AppCompatActivity  {
                 Integer.parseInt(minute),
                 0);
         setAlarm1(calendar.getTimeInMillis());
+        SharedPreferences.Editor editor1 = getSharedPreferences(myPref,Context.MODE_PRIVATE).edit();
+        editor1.putLong("lastalarm1", calendar.getTimeInMillis());
+        editor1.commit();
     }
     public void addToAlarm2(String hour,String minute,String am_pm){
         switch (am_pm) {
@@ -262,7 +422,7 @@ public class SettingsActivity extends AppCompatActivity  {
         AlarmManager alarmManager1 = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Intent intent1 = new Intent(this,Alarm1.class);
         intent1.putExtra("alarm", "alarm1");
-        PendingIntent pendingIntent1 = PendingIntent.getBroadcast(this,1,intent1,0);
+        PendingIntent pendingIntent1 = PendingIntent.getBroadcast(this,1,intent1,FLAG_UPDATE_CURRENT);
         alarmManager1.setRepeating(AlarmManager.RTC_WAKEUP,timeInMillis,AlarmManager.INTERVAL_DAY,pendingIntent1);
         Toast.makeText(this, "Alarm 1 is set", Toast.LENGTH_SHORT).show();
     }
@@ -271,7 +431,7 @@ public class SettingsActivity extends AppCompatActivity  {
         AlarmManager alarmManager2 = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Intent intent2 = new Intent(this,Alarm1.class);
         intent2.putExtra("alarm", "alarm2");
-        PendingIntent pendingIntent2 = PendingIntent.getBroadcast(this,2,intent2,0);
+        PendingIntent pendingIntent2 = PendingIntent.getBroadcast(this,2,intent2,FLAG_UPDATE_CURRENT);
         alarmManager2.setRepeating(AlarmManager.RTC_WAKEUP,timeInMillis,AlarmManager.INTERVAL_DAY,pendingIntent2);
         Toast.makeText(this, "Alarm 2 is set", Toast.LENGTH_SHORT).show();
     }
@@ -279,7 +439,7 @@ public class SettingsActivity extends AppCompatActivity  {
         AlarmManager alarmManager3 = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Intent intent3 = new Intent(this,Alarm1.class);
         intent3.putExtra("alarm", "alarm3");
-        PendingIntent pendingIntent3 = PendingIntent.getBroadcast(this,3,intent3,0);
+        PendingIntent pendingIntent3 = PendingIntent.getBroadcast(this,3,intent3,FLAG_UPDATE_CURRENT);
         alarmManager3.setRepeating(AlarmManager.RTC_WAKEUP,timeInMillis,AlarmManager.INTERVAL_DAY,pendingIntent3);
         Toast.makeText(this, "Alarm 3 is set", Toast.LENGTH_SHORT).show();
     }

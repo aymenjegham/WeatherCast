@@ -3,7 +3,9 @@ package com.example.asus.weathercast;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
- import android.os.Bundle;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.TextClock;
@@ -12,6 +14,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
+
+import static com.example.asus.weathercast.SettingsActivity.myPref;
 
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
@@ -73,12 +77,21 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         switch (mNum){
             case 1:
                 alarmclock1.setText(aTime);
+                SharedPreferences.Editor editor1 = getActivity().getSharedPreferences(myPref,Context.MODE_PRIVATE).edit();
+                editor1.putString("alarm1", aTime);
+                editor1.commit();
                 return;
             case 2:
                 alarmclock2.setText(aTime);
+                SharedPreferences.Editor editor2 = getActivity().getSharedPreferences(myPref,Context.MODE_PRIVATE).edit();
+                editor2.putString("alarm2", aTime);
+                editor2.commit();
                 return;
             case 3:
                 alarmclock3.setText(aTime);
+                SharedPreferences.Editor editor3 = getActivity().getSharedPreferences(myPref,Context.MODE_PRIVATE).edit();
+                editor3.putString("alarm3", aTime);
+                editor3.commit();
                 return;
             }
         }
