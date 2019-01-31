@@ -33,5 +33,8 @@
     <string name="rain">Rain</string>
     <string name="snow">Snow</string>
     <string name="wind">Wind</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="enable_notification">Enable Notification</string>
+    <string name="set_your_notification_times">Set your Notification times</string>
 
 </resources>

@@ -2,6 +2,7 @@ package com.example.asus.weathercast;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -55,6 +57,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.special.ResideMenu.ResideMenu;
+import com.special.ResideMenu.ResideMenuItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,7 +73,9 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.jar.JarException;
 
-public class WeatherActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks,LocationListener {
+import static java.security.AccessController.getContext;
+
+public class WeatherActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks,LocationListener,View.OnClickListener {
 
     final String URL_BASE ="http://api.openweathermap.org/data/2.5/forecast";
     final String URL_COORD="/?lat="; // 51.502653&lon=0.0448183"
@@ -84,6 +90,18 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     public String statevalue2;
     protected LocationRequest locationRequest;
     int REQUEST_CHECK_SETTINGS = 100;
+
+    private ConstraintLayout layout;
+
+
+
+
+    private ResideMenu resideMenu;
+    private ResideMenuItem resideMenuSetting;
+    private ResideMenuItem resideMenuHome;
+    private ResideMenuItem resideMenuNew;
+
+    private Context mcontext;
 
 
 
@@ -105,6 +123,9 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     LocationManager locationManager;
 
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +135,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         animationDrawable.setEnterFadeDuration(2000);
         animationDrawable.setExitFadeDuration(4000);
         animationDrawable.start();
+
 
 
         weatherIcon=(ImageView)findViewById(R.id.imageView2);
@@ -127,7 +149,12 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         msgint1=(TextView)findViewById(R.id.internetlostmsg);
         msgint1.setVisibility(View.INVISIBLE);
         msgint2=(TextView)findViewById(R.id.internetlostmsg2);
+        layout=(ConstraintLayout)findViewById(R.id.layout) ;
         msgint2.setVisibility(View.INVISIBLE);
+
+        setUpMenu();
+
+
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -183,6 +210,46 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
     }
 
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return resideMenu.dispatchTouchEvent(ev);
+    }
+
+    private void setUpMenu() {
+
+        resideMenu = new ResideMenu(this);
+        resideMenu.setBackground(R.drawable.gradient_1);
+        resideMenu.attachToActivity(this);
+         resideMenu.setScaleValue(0.7f);
+        resideMenuSetting =new ResideMenuItem(this,R.drawable.ic_settings,"Settings");
+        resideMenuHome =new ResideMenuItem(this,R.drawable.ic_home,"Home");
+        resideMenuNew =new ResideMenuItem(this,R.drawable.ic_info,"Info");
+
+        resideMenuSetting.setOnClickListener(this);
+        resideMenuHome.setOnClickListener(this);
+        resideMenuNew.setOnClickListener(this);
+
+
+        resideMenu.setMenuListener(menuListener);
+       resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
+      resideMenu.addMenuItem(resideMenuSetting,ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(resideMenuHome,ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(resideMenuNew,ResideMenu.DIRECTION_LEFT);
+
+    }
+
+    private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
+        @Override
+        public void openMenu() {
+         }
+        @Override
+        public void closeMenu() {
+            //resideMenu.removeView(resideMenuSetting);
+         }
+    };
+
+
     private boolean isLocationEnabled() {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
                 locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -197,7 +264,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(10000 / 2);
+        locationRequest.setFastestInterval(10000/ 2);
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
         builder.setAlwaysShow(true);
@@ -589,6 +656,22 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
                 }
             }
         }
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
+       if(v == resideMenuSetting){
+            Intent intent = new Intent(getApplicationContext(),SettingsActivity.class);
+            startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+       }else if(v == resideMenuHome){
+                    resideMenu.closeMenu();
+        }else {
+           Intent intent = new Intent(getApplicationContext(),InfoActivity.class);
+           startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+       }
+
 
 
     }
