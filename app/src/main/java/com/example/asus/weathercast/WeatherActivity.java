@@ -84,7 +84,12 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
     private GoogleApiClient mGoogleApiClient;
     private final int PERMISSION_LOCATION=111;
-    private ArrayList<DailyWeatherReport> weatherReportList= new ArrayList<>();
+    static private ArrayList<DailyWeatherReport> weatherReportList= new ArrayList<>();
+
+    static public ArrayList<DailyWeatherReport> getWeatherReportList() {
+        return weatherReportList;
+    }
+
     boolean state=true;
     int ctof,ftoc,ctof2,ftoc2;
     public String statevalue2;
@@ -92,7 +97,6 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     int REQUEST_CHECK_SETTINGS = 100;
 
     private ConstraintLayout layout;
-
 
 
 
@@ -136,6 +140,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         animationDrawable.setExitFadeDuration(4000);
         animationDrawable.start();
 
+        Log.v("myweather",weatherReportList.toString());
 
 
         weatherIcon=(ImageView)findViewById(R.id.imageView2);
@@ -390,9 +395,12 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
                         Log.v("JSON","printing from class "+rawDate);
                         Log.v("adapterduplication",weatherReportList.toString());
                         weatherReportList.add(report);
-                         i++;
+                        Log.v("myweather2",weatherReportList.toString());
+
+                        i++;
                          i++;
                     }
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -412,6 +420,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
         Volley.newRequestQueue(this).add(jsonRequest);
     }
+
 
 
 
