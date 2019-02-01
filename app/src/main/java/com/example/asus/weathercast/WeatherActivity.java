@@ -85,9 +85,13 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     private GoogleApiClient mGoogleApiClient;
     private final int PERMISSION_LOCATION=111;
     static private ArrayList<DailyWeatherReport> weatherReportList= new ArrayList<>();
+    static private ArrayList<DailyWeatherReport> weatherReportList1= new ArrayList<>();
+
+
+
 
     static public ArrayList<DailyWeatherReport> getWeatherReportList() {
-        return weatherReportList;
+        return weatherReportList1;
     }
 
     boolean state=true;
@@ -140,7 +144,6 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         animationDrawable.setExitFadeDuration(4000);
         animationDrawable.start();
 
-        Log.v("myweather",weatherReportList.toString());
 
 
         weatherIcon=(ImageView)findViewById(R.id.imageView2);
@@ -393,13 +396,29 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
                         DailyWeatherReport report =new DailyWeatherReport(cityName,country,currentTemp.intValue(),maxTemp.intValue(),minTemp.intValue(),weatherType,rawDate);
                         Log.v("JSON","printing from class "+rawDate);
-                        Log.v("adapterduplication",weatherReportList.toString());
                         weatherReportList.add(report);
-                        Log.v("myweather2",weatherReportList.toString());
 
-                        i++;
-                         i++;
+                       i++;
+                       i++;
+
+                }
+                    for(int i=0;i<list.length();i++){
+                        JSONObject obj =list.getJSONObject(i);
+                        JSONObject main =obj.getJSONObject("main");
+                        Double maxTemp=main.getDouble("temp_max");
+                        Double minTemp=main.getDouble("temp_min");
+                        JSONArray weatherArr=obj.getJSONArray("weather");
+                        JSONObject weather =weatherArr.getJSONObject(0);
+                        String weatherType =weather.getString("main");
+                        String rawDate=obj.getString("dt_txt");
+
+
+                        DailyWeatherReport report1 =new DailyWeatherReport(maxTemp.intValue(),minTemp.intValue(),weatherType,rawDate);
+                        weatherReportList1.add(report1);
+                        Log.v("testingnewarray",report1.getWeather());
+
                     }
+
 
 
                 } catch (JSONException e) {

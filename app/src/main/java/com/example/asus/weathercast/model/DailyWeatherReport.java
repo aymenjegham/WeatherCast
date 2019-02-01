@@ -49,7 +49,14 @@ public class DailyWeatherReport {
         this.rawdate=rawDate;
     }
 
-     public String rawDateToReadable(String rawDate){
+    public DailyWeatherReport(int maxTemp, int minTemp, String weather,String rawdate) {
+        this.maxTemp = maxTemp;
+        this.minTemp = minTemp;
+        this.weather = weather;
+        this.rawdate=rawdate;
+    }
+
+    public String rawDateToReadable(String rawDate){
         String oldstring = rawDate;
         String month="";
        switch (rawDate.substring(5,7)){
