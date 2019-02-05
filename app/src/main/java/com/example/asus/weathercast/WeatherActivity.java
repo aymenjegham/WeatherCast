@@ -18,6 +18,7 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.Settings;
+import android.renderscript.Sampler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -73,6 +74,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.jar.JarException;
 
+import static com.example.asus.weathercast.SettingsActivity.myPref;
 import static java.security.AccessController.getContext;
 
 public class WeatherActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks,LocationListener,View.OnClickListener {
@@ -85,14 +87,9 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     private GoogleApiClient mGoogleApiClient;
     private final int PERMISSION_LOCATION=111;
     static private ArrayList<DailyWeatherReport> weatherReportList= new ArrayList<>();
-    static private ArrayList<DailyWeatherReport> weatherReportList1= new ArrayList<>();
 
-
-
-
-    static public ArrayList<DailyWeatherReport> getWeatherReportList() {
-        return weatherReportList1;
-    }
+      public Location location1;
+      String GPSenabled;
 
     boolean state=true;
     int ctof,ftoc,ctof2,ftoc2;
@@ -164,14 +161,17 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
 
 
+        SharedPreferences shared = getSharedPreferences(myPref,MODE_PRIVATE);
+        GPSenabled = shared.getString("GPSenabled","TRUE");
+        Log.v("Gpsenabled",GPSenabled);
+
+
+
+
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         if (!isLocationEnabled()){
-           // showAlert(1);
-            displayLocationSettingsRequest(this);
-            Log.v("GPSenabled ?","nooooooooooooooooo");
-
-
+             displayLocationSettingsRequest(this);
         }
 
 
@@ -360,85 +360,6 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     }
 */
 
-    public void downloadWeatherData(Location location){
-        final String fullCoords= URL_COORD +location.getLatitude() + "&lon=" + location.getLongitude();
-        //final String fullCoords=URL_COORD +71.2080+ "&lon=" +46.8139 ; // for testing purposes
-        final String url = URL_BASE +fullCoords+URL_UNITS+URL_API_KEY;
-        Log.v("WEATHERDEBUG","url: "+url);
-
-        final JsonObjectRequest jsonRequest =new JsonObjectRequest(Request.Method.GET, url,null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.v("WEATHERDEBUG","res:"+response.toString());
-
-                try{
-                    JSONObject city= response.getJSONObject("city");
-                    String cityName =city.getString("name");
-                    String country=city.getString("country");
-                    Log.v("JSON","name"+cityName+"country"+ country);
-
-                    JSONArray list =response.getJSONArray("list");
-                    Log.v("listsize",Integer.toString(list.length()));
-                    weatherReportList.clear();
-
-                    for(int i=0;i<list.length();i++){
-                        JSONObject obj =list.getJSONObject(i);
-                        JSONObject main =obj.getJSONObject("main");
-                        Double currentTemp =main.getDouble("temp");
-                        Double maxTemp=main.getDouble("temp_max");
-                        Double minTemp=main.getDouble("temp_min");
-
-                        JSONArray weatherArr=obj.getJSONArray("weather");
-                        JSONObject weather =weatherArr.getJSONObject(0);
-                        String weatherType =weather.getString("main");
-
-                        String rawDate=obj.getString("dt_txt");
-
-                        DailyWeatherReport report =new DailyWeatherReport(cityName,country,currentTemp.intValue(),maxTemp.intValue(),minTemp.intValue(),weatherType,rawDate);
-                        Log.v("JSON","printing from class "+rawDate);
-                        weatherReportList.add(report);
-
-                       i++;
-                       i++;
-
-                }
-                    for(int i=0;i<list.length();i++){
-                        JSONObject obj =list.getJSONObject(i);
-                        JSONObject main =obj.getJSONObject("main");
-                        Double maxTemp=main.getDouble("temp_max");
-                        Double minTemp=main.getDouble("temp_min");
-                        JSONArray weatherArr=obj.getJSONArray("weather");
-                        JSONObject weather =weatherArr.getJSONObject(0);
-                        String weatherType =weather.getString("main");
-                        String rawDate=obj.getString("dt_txt");
-
-
-                        DailyWeatherReport report1 =new DailyWeatherReport(maxTemp.intValue(),minTemp.intValue(),weatherType,rawDate);
-                        weatherReportList1.add(report1);
-                        Log.v("testingnewarray",report1.getWeather());
-
-                    }
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.v("JSON","exec"+e.getLocalizedMessage());
-                }
-                updateUi();
-                mAdapter.notifyDataSetChanged();
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.v("WEATHERDEBUG","error"+error.getLocalizedMessage());
-            }
-        });
-
-        Volley.newRequestQueue(this).add(jsonRequest);
-    }
 
 
 
@@ -653,8 +574,101 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
     @Override
     public void onLocationChanged(Location location) {
-        downloadWeatherData(location);
+
+
+        if (GPSenabled.equals("TRUE")){
+
+            SharedPreferences.Editor editor = getSharedPreferences(myPref,getApplicationContext().MODE_PRIVATE).edit();
+             editor.putString("LOCATION_LAT", String.valueOf(location.getLatitude()));
+            editor.putString("LOCATION_LON", String.valueOf(location.getLongitude()));
+            editor.putString("LOCATION_PROVIDER", location.getProvider());
+            editor.commit();
+            downloadWeatherData(location);
+        }else{
+
+            SharedPreferences notif = getSharedPreferences(myPref,MODE_PRIVATE);
+            String lat =notif.getString("LOCATION_LAT",String.valueOf(location.getAltitude()));
+            String lon =notif.getString("LOCATION_LON",String.valueOf(location.getLongitude()));
+            String provider = notif.getString("LOCATION_PROVIDER", location.getProvider());
+
+            location1 = new Location(provider);
+            location1.setLatitude(Double.parseDouble(lat));
+            location1.setLongitude(Double.parseDouble(lon));
+            downloadWeatherData(location1);
+
+        }
     }
+
+    public void downloadWeatherData(Location location){
+
+        final String fullCoords= URL_COORD +location.getLatitude() + "&lon=" + location.getLongitude();
+        //final String fullCoords=URL_COORD +71.2080+ "&lon=" +46.8139 ; // for testing purposes
+        final String url = URL_BASE +fullCoords+URL_UNITS+URL_API_KEY;
+        Log.v("WEATHERDEBUG","url: "+url);
+
+        final JsonObjectRequest jsonRequest =new JsonObjectRequest(Request.Method.GET, url,null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.v("WEATHERDEBUG","res:"+response.toString());
+
+                try{
+                    JSONObject city= response.getJSONObject("city");
+                    String cityName =city.getString("name");
+                    String country=city.getString("country");
+                    Log.v("JSON","name"+cityName+"country"+ country);
+
+                    JSONArray list =response.getJSONArray("list");
+                    Log.v("listsize",Integer.toString(list.length()));
+                    weatherReportList.clear();
+
+                    for(int i=0;i<list.length();i++){
+                        JSONObject obj =list.getJSONObject(i);
+                        JSONObject main =obj.getJSONObject("main");
+                        Double currentTemp =main.getDouble("temp");
+                        Double maxTemp=main.getDouble("temp_max");
+                        Double minTemp=main.getDouble("temp_min");
+
+                        JSONArray weatherArr=obj.getJSONArray("weather");
+                        JSONObject weather =weatherArr.getJSONObject(0);
+                        String weatherType =weather.getString("main");
+
+                        String rawDate=obj.getString("dt_txt");
+
+                        DailyWeatherReport report =new DailyWeatherReport(cityName,country,currentTemp.intValue(),maxTemp.intValue(),minTemp.intValue(),weatherType,rawDate);
+                        Log.v("JSON","printing from class "+rawDate);
+                        weatherReportList.add(report);
+
+                        i++;
+                        i++;
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.v("JSON","exec"+e.getLocalizedMessage());
+                }
+                updateUi();
+                mAdapter.notifyDataSetChanged();
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.v("WEATHERDEBUG","error"+error.getLocalizedMessage());
+            }
+        });
+
+        Volley.newRequestQueue(this).add(jsonRequest);
+    }
+
+
+
+
+
+
+
+
     public void startLocationServices(){
         Log.v("Debugging","startedlocationservices started");
         try{

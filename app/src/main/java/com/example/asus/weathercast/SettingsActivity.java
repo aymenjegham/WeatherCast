@@ -46,6 +46,8 @@ public class SettingsActivity extends AppCompatActivity  {
     String hourandminute;
     public static final String myPref = "preferenceName";
     Switch aSwitch;
+    Switch aSwitch2;
+
 
 
 
@@ -54,10 +56,13 @@ public class SettingsActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+
         alarm1=findViewById(R.id.textClock);
         alarm2=findViewById(R.id.textClock2);
         alarm3=findViewById(R.id.textClock3);
         aSwitch=findViewById(R.id.switch1);
+        aSwitch2=findViewById(R.id.switch2);
+
 
 
         //gesture swipe to left and to right
@@ -337,6 +342,37 @@ public class SettingsActivity extends AppCompatActivity  {
                  hour =hour_minute[0];
                  minute=hour_minute[1];
                  addToAlarm3(hour,minute,amorpm);
+             }
+         });
+
+        SharedPreferences shared = getSharedPreferences(myPref,MODE_PRIVATE);
+        String GPSenabled = shared.getString("GPSenabled","TRUE");
+
+        if(GPSenabled.equals("TRUE")){
+            aSwitch2.setChecked(true);
+        }else {
+            aSwitch2.setChecked(false);
+        }
+
+
+
+
+         aSwitch2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+             @Override
+             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                 if(!isChecked){
+                     SharedPreferences.Editor editor = getSharedPreferences(myPref,getApplicationContext().MODE_PRIVATE).edit();
+                     editor.putString("GPSenabled","FALSE");
+                     editor.commit();
+
+
+                 }else{
+                     SharedPreferences.Editor editor = getSharedPreferences(myPref,getApplicationContext().MODE_PRIVATE).edit();
+                     editor.putString("GPSenabled","TRUE");
+                     editor.commit();
+                 }
+
              }
          });
 
