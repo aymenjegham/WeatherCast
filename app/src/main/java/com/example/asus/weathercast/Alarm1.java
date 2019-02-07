@@ -79,6 +79,8 @@ public class Alarm1 extends BroadcastReceiver {
         location1.setLatitude(Double.parseDouble(lat));
         location1.setLongitude(Double.parseDouble(lon));
 
+        Log.v("PRIINTCATCHNOTCONNECTED","timehascome");
+
         downloadWeatherData(location1,alarm);
 
 
@@ -203,13 +205,9 @@ public class Alarm1 extends BroadcastReceiver {
                             notificationManager.notify(1, notification);
 
                         }
-
-
-
-
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Log.v("JSON", "exec" + e.getLocalizedMessage());
+                        Log.v("PRIINTCATCHNOTCONNECTED", "exec" + e.getLocalizedMessage());
                     }
 
 
@@ -217,7 +215,21 @@ public class Alarm1 extends BroadcastReceiver {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.v("WEATHERDEBUG", "error" + error.getLocalizedMessage());
+                    Log.v("PRIINTCATCHNOTCONNECTED", "error" + error.getLocalizedMessage());
+                    Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                    Notification notification = new NotificationCompat.Builder(mcontext, CHANNEL_1_ID)
+                            .setSmallIcon(R.drawable.umbrella)
+                            .setContentTitle("Your Weather report")
+                            .setContentText("No internet")
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                            .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
+                            .setLights(Color.RED, 3000, 3000)
+                            .setSound(uri)
+                            .build();
+
+                    notificationManager.notify(1, notification);
+
                 }
             });
 

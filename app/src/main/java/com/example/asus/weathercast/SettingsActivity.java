@@ -365,6 +365,7 @@ public class SettingsActivity extends AppCompatActivity  {
                      SharedPreferences.Editor editor = getSharedPreferences(myPref,getApplicationContext().MODE_PRIVATE).edit();
                      editor.putString("GPSenabled","FALSE");
                      editor.commit();
+                     new MapDialogFragment().show(getSupportFragmentManager(), null);
 
 
                  }else{

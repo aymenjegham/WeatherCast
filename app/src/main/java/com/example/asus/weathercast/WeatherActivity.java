@@ -25,6 +25,7 @@ import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -89,6 +90,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     static private ArrayList<DailyWeatherReport> weatherReportList= new ArrayList<>();
 
       public Location location1;
+      public Location  LocationGl;
       String GPSenabled;
 
     boolean state=true;
@@ -156,6 +158,17 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         msgint2=(TextView)findViewById(R.id.internetlostmsg2);
         layout=(ConstraintLayout)findViewById(R.id.layout) ;
         msgint2.setVisibility(View.INVISIBLE);
+        final SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
+
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                downloadWeatherData(LocationGl);
+                pullToRefresh.setRefreshing(false);
+            }
+
+
+        });
 
         setUpMenu();
 
@@ -574,7 +587,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
     @Override
     public void onLocationChanged(Location location) {
-
+LocationGl=location;
 
         if (GPSenabled.equals("TRUE")){
 
