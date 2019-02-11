@@ -77,7 +77,6 @@ public class SettingsActivity extends AppCompatActivity  {
          String alarm_3 = notif.getString("alarm3","07:00 AM");
         String initial = notif.getString("initiallaunch","yes");
 
-        Log.v("offmonitoring","here:"+state);
 
 
 
@@ -99,7 +98,6 @@ public class SettingsActivity extends AppCompatActivity  {
 
 
         if(state.equals("ON")){
-            Log.v("offmonitoring","passed");
 
             aSwitch.setChecked(true);
             alarm1.setText(alarm_1);
@@ -365,7 +363,11 @@ public class SettingsActivity extends AppCompatActivity  {
                      SharedPreferences.Editor editor = getSharedPreferences(myPref,getApplicationContext().MODE_PRIVATE).edit();
                      editor.putString("GPSenabled","FALSE");
                      editor.commit();
-                     new MapDialogFragment().show(getSupportFragmentManager(), null);
+
+                     DialogMap dialogMap =new DialogMap();
+                     dialogMap.show(getFragmentManager(),"MyDialogMap");
+
+
 
 
                  }else{
