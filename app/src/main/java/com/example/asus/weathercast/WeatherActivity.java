@@ -59,6 +59,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.gson.Gson;
 import com.special.ResideMenu.ResideMenu;
 import com.special.ResideMenu.ResideMenuItem;
 
@@ -655,6 +656,11 @@ LocationGl=location;
                         i++;
 
                     }
+                    Gson gson = new Gson();
+                    String json = gson.toJson(weatherReportList);
+                    SharedPreferences.Editor editor =getSharedPreferences(myPref,MODE_PRIVATE).edit();
+                    editor.putString("WeatherArray",json);
+                    editor.commit();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

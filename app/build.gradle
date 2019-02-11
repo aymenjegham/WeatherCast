@@ -39,4 +39,7 @@ dependencies {
 
     //reside menu sidebar
     implementation 'com.specyci:residemenu:1.6'
+
+
+    implementation 'com.google.code.gson:gson:2.8.5'
 }
