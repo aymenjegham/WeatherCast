@@ -34,4 +34,8 @@
     <string name="rain">Pluie</string>
     <string name="snow">Neige</string>
     <string name="wind">Vent</string>
+    <string name="title_activity_settings">Activité parametres</string>
+    <string name="set_your_notification_times">Définissez les temps de notif</string>
+    <string name="enable_notification">Activer la notification</string>
+    <string name="enable_Auto_GeoLocation">"Géolocalisation automatique "</string>
 </resources>

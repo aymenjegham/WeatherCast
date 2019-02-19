@@ -11,6 +11,7 @@ import com.example.asus.weathercast.R;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.TimeZone;
 
 /**
  * Created by ASUS on 29/11/2018.
@@ -38,6 +39,7 @@ public class DailyWeatherReport {
 
     private String rawdate;
 
+
     public DailyWeatherReport(String cityName, String country, int currentTemp, int maxTemp, int minTemp, String weather, String rawDate) {
         this.cityName = cityName;
         this.country = country;
@@ -49,7 +51,14 @@ public class DailyWeatherReport {
         this.rawdate=rawDate;
     }
 
-     public String rawDateToReadable(String rawDate){
+    public DailyWeatherReport(int maxTemp, int minTemp, String weather,String rawdate) {
+        this.maxTemp = maxTemp;
+        this.minTemp = minTemp;
+        this.weather = weather;
+        this.rawdate=rawdate;
+    }
+
+    public String rawDateToReadable(String rawDate){
         String oldstring = rawDate;
         String month="";
        switch (rawDate.substring(5,7)){
