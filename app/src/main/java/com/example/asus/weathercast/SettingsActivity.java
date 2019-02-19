@@ -365,7 +365,7 @@ public class SettingsActivity extends AppCompatActivity  {
                      editor.commit();
 
                      DialogMap dialogMap =new DialogMap();
-                     dialogMap.show(getFragmentManager(),"MyDialogMap");
+                     dialogMap.show(getSupportFragmentManager(),"MyDialogMap");
 
 
 

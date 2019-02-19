@@ -588,7 +588,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
     @Override
     public void onLocationChanged(Location location) {
-LocationGl=location;
+
 
         if (GPSenabled.equals("TRUE")){
 
@@ -598,6 +598,7 @@ LocationGl=location;
             editor.putString("LOCATION_PROVIDER", location.getProvider());
             editor.commit();
             downloadWeatherData(location);
+            LocationGl=location;
         }else{
 
             SharedPreferences notif = getSharedPreferences(myPref,MODE_PRIVATE);
@@ -609,6 +610,7 @@ LocationGl=location;
             location1.setLatitude(Double.parseDouble(lat));
             location1.setLongitude(Double.parseDouble(lon));
             downloadWeatherData(location1);
+            LocationGl=location1;
 
         }
     }

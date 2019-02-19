@@ -39,6 +39,8 @@
     <string name="enable_Auto_GeoLocation">Enable Auto GeoLocation"</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+
+       <string name="google_api_key">AIzaSyDYGWNLZUTmC35kbG_K-ip_k5p5BxT5BNU</string>
 
 </resources>
