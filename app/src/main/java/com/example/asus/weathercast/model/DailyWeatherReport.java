@@ -1,16 +1,29 @@
 package com.example.asus.weathercast.model;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.res.Resources;
+import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
+import android.location.Location;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
+ import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.asus.weathercast.R;
+import com.example.asus.weathercast.WeatherActivity;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.util.Date;
 import java.util.TimeZone;
 
 /**
@@ -18,6 +31,9 @@ import java.util.TimeZone;
  */
 
 public class DailyWeatherReport {
+
+
+
 
      public static final  String  WEATHER_TYPE_CLOUDS="Clouds";
     public static final  String  WEATHER_TYPE_CLEAR="Clear";
@@ -40,7 +56,7 @@ public class DailyWeatherReport {
     private String rawdate;
 
 
-    public DailyWeatherReport(String cityName, String country, int currentTemp, int maxTemp, int minTemp, String weather, String rawDate) {
+    public DailyWeatherReport(String cityName, String country, int currentTemp, int maxTemp, int minTemp, String weather, final String rawDate, Location location, Context mcontext) {
         this.cityName = cityName;
         this.country = country;
         this.currentTemp = currentTemp;
@@ -48,14 +64,31 @@ public class DailyWeatherReport {
         this.minTemp = minTemp;
         this.weather = weather;
         this.formattedDate = rawDateToReadable(rawDate);
-        this.rawdate=rawDate;
+        this.rawdate= rawDate;
+
+
+
+
+
+
+
+
     }
 
-    public DailyWeatherReport(int maxTemp, int minTemp, String weather,String rawdate) {
+     public DailyWeatherReport(int maxTemp, int minTemp, String weather, String rawdate) {
         this.maxTemp = maxTemp;
         this.minTemp = minTemp;
         this.weather = weather;
         this.rawdate=rawdate;
+
+    }
+    public String gmtToLocal(String rawDate,Long offset){
+
+        Log.v("offsetcheckpoint",""+offset);
+
+
+        return "2019-02-24 18:00:00";
+
     }
 
     public String rawDateToReadable(String rawDate){
